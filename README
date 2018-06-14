@@ -1,0 +1,44 @@
+Programa falcon_fib.py calcula el fibonacci de un numero entero enviado en formato json a la direccion de localhost/demo y ademas almacena un historial de valores calculados.
+
+Modo de uso
+
+Ejecutar el programa del servidor usando gunicorn:
+
+gunicorn falcon_fib:api
+
+Al hacerlo el servidor esta disponible en la direccion http://127.0.0.1:8000/demo
+
+Para que se realize el calculo de un valor int se debe enviar el dato usando la funcion POST: p.e.
+
+	curl -H "Content-Type: application/json" -X POST -d '{"numero":5}' http://127.0.0.1:8000/demo
+
+Automaticamete se calcula el fibonacci, se le asigna un indice, se almacena y se devuelva el mensaje (en formato JSON):
+
+{
+	"msg": "Registrado numero 5 y su fibonacci 8 "
+}
+
+
+Si se desea conocer el historial de numeros calculados usando la funcion GET:
+
+	curl -H "Content-Type: application/json" -X GET -d '' http://127.0.0.1:8000/demo
+
+se obtiene:
+
+[
+	{
+		"id": 1,
+		"numero": 5,
+		"fibonacci": 8
+	}
+]
+
+Si se desea eliminar un valor del historial, basta con usar el indice en la funcion DELETE:
+
+	curl -H "Content-Type: application/json" -X DELETE -d '{"id":1}' http://127.0.0.1:8000/demo
+
+Respuesta:
+
+{
+	"msg": "borrando dato con id 1"
+}
